@@ -1,4 +1,6 @@
 /**
+ * @author Sina Lyon
+ * 
  * @class Ball holds all properties that pertain to a ball
  *          object, including methods to the ball's behaviour.
  */
