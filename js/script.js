@@ -3,7 +3,6 @@
 
     Game TODOs: 
         - Make ball bounce more angled instead of just bouncing opposite to it's previous direction.
-        - Add a sound for every time the ball bounces off anything.
         - Keep track of a scoring for when the ball bounces off the paddle.
 
     Bug TODOs:
@@ -19,6 +18,7 @@ import Paddle from "./classes/Paddle.js";
 import drawBall from "./functions/drawBall.js";
 import drawPaddle from "./functions/drawPaddle.js";
 import random from "./functions/random.js";
+import playSound from "./functions/playSound.js";
 
 // First & foremost is to get the canvas element & set up it's properies.
 const CANVAS = document.getElementsByTagName("canvas")[0],
@@ -35,7 +35,7 @@ CTX.lineJoin = "round";     // the connection point for when 2 lines meet.
 CTX.lineCap = "round";      // style of the end caps for a line
 
 // here we have a Ball singleton object that will show visually within the canvas after being drawn.
-const BALL = new Ball(CTX.canvas.width / 2, CTX.canvas.height - 300, 30, random(5, -5), random(5, -5), "rgb(90, 30, 40)"),
+const BALL = new Ball(CTX.canvas.width / 2, CTX.canvas.height - 300, 10, 10, -10, "rgb(90, 30, 40)"),
     PADDLE = new Paddle(200, 40, (CTX.canvas.width - 75) / 2, "rgb(90, 30, 40)");
 
 // This mousemove event updates the paddle's direction property with the cursor's offsetX value.
@@ -64,10 +64,12 @@ function draw() {
 
     /* The following if-else block increments positioning to move the ball */
     if (BALL.y > CTX.canvas.height - BALL.radius || BALL.y < 0 + BALL.radius) { // if ball touches bottom or top of it's circumference
+        playSound(new Audio("../sounds/bounce.mp3"));
         BALL.moveX(BALL.directX);
         BALL.moveY(-BALL.directY);
         BALL.setColour(`rgb(${random(255, 0)}, ${random(255, 0)}, ${random(255, 0)})`); // change to random colour on bounce
     } else if (BALL.x > CTX.canvas.width - BALL.radius || BALL.x < 0 + BALL.radius) { // if ball touches right or left of it's circumference
+        playSound(new Audio("../sounds/bounce.mp3"));
         BALL.moveX(-BALL.directX);
         BALL.moveY(BALL.directY);
         BALL.setColour(`rgb(${random(255, 0)}, ${random(255, 0)}, ${random(255, 0)})`); // change to random colour on bounce
